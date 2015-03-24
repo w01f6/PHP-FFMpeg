@@ -128,7 +128,9 @@ abstract class DefaultAudio extends EventEmitter implements AudioInterface, Prog
         $listener->on('progress', function () use ($media, $format) {
            $format->emit('progress', array_merge(array($media, $format), func_get_args()));
         });
-
+        $listener->on('finish', function () use ($media, $format) {
+            $format->emit('finish', array_merge(array($media, $format), func_get_args()));
+        });
         return array($listener);
     }
 

@@ -53,13 +53,12 @@ class Audio extends AbstractStreamableMedia
      * Exports the audio in the desired format, applies registered filters.
      *
      * @param FormatInterface $format
-     * @param string          $outputPathfile
+     * @param string $outputPathfile
+     * @param string $onFinishEvent
      *
      * @return Audio
-     *
-     * @throws RuntimeException
      */
-    public function save(FormatInterface $format, $outputPathfile)
+    public function save(FormatInterface $format, $outputPathfile, $onFinishEvent = self::ON_FINISH_EVENT)
     {
         $listeners = null;
 
@@ -95,6 +94,7 @@ class Audio extends AbstractStreamableMedia
 
         try {
             $this->driver->command($commands, false, $listeners);
+            $format->emit($onFinishEvent, array($this, $format, $outputPathfile));
         } catch (ExecutionFailureException $e) {
             $this->cleanupTemporaryFile($outputPathfile);
             throw new RuntimeException('Encoding failed', $e->getCode(), $e);
@@ -102,4 +102,6 @@ class Audio extends AbstractStreamableMedia
 
         return $this;
     }
+
+    const ON_FINISH_EVENT = 'finish';
 }
