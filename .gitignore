@@ -6,3 +6,8 @@ phpunit.xml
 
 /.idea/
 /composer.lock
+*.mp3
+*.flac
+*.m4a
+*.ogg
+*.wav
