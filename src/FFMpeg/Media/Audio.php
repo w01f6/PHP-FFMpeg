@@ -58,7 +58,7 @@ class Audio extends AbstractStreamableMedia
      *
      * @return Audio
      */
-    public function save(FormatInterface $format, $outputPathfile, $onFinishEvent = self::ON_FINISH_EVENT)
+    public function save(FormatInterface $format, $outputPathfile/*, $onFinishEvent = self::ON_FINISH_EVENT*/)
     {
         $listeners = null;
 
@@ -94,7 +94,7 @@ class Audio extends AbstractStreamableMedia
 
         try {
             $this->driver->command($commands, false, $listeners);
-            $format->emit($onFinishEvent, array($this, $format, $outputPathfile));
+//            $format->emit($onFinishEvent, array($this, $format, $outputPathfile));
         } catch (ExecutionFailureException $e) {
             $this->cleanupTemporaryFile($outputPathfile);
             throw new RuntimeException('Encoding failed', $e->getCode(), $e);
